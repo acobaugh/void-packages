@@ -1,0 +1,23 @@
+# Template file for DSRemote
+pkgname=DSRemote
+version=0.37
+revision=2012070937_1
+_commit="d85c226118e85c141a9100f7f81f988c0fd70530"
+build_style=qmake
+hostmakedepends=""
+makedepends="qt5-devel"
+wrksrc="${pkgname}-${_commit}"
+short_desc="A program to control and visualize your Rigol® DS6000 or DS1000Z series oscilloscope from your Linux desktop via USB or LAN."
+maintainer="Andy Cobaugh <andrew.cobaugh@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://www.teuniz.net/DSRemote/"
+distfiles="https://gitlab.com/Teuniz/DSRemote/-/archive/${_commit}/${pkgname}-${_commit}.tar.gz"
+checksum="a76f733164e6447e0c301c5b17214d7a0c772d069743427fc71531f2333d8690"
+
+post_install() {
+	# fix udev rule path
+	mkdir -p ${DESTDIR}/usr/lib/udev/rules.d
+	mv ${DESTDIR}/etc/udev/rules.d/30-usbtmc.rules \
+	    ${DESTDIR}/usr/lib/udev/rules.d
+	rm -rf ${DESTDIR}/etc/udev/rules.d
+}
